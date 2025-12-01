@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id          String        @id
+  email       String        @unique
+  name        String?
+  userProblem UserProblem[] @relation("UsersProblem")
+  folder      Folder[]      @relation("UsersFolder")
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Problem {
+  id           String        @id @default(uuid())
+  title        String
+  difficulty   String
+  link         String
+  tags         String[]
+  userProblems UserProblem[] @relation("SavedProblems")
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model UserProblem {
+  id                String    @id @default(uuid())
+  problemId         String
+  problem           Problem   @relation("SavedProblems", fields: [problemId], references: [id])
+  userId            String
+  user              User      @relation("UsersProblem", fields: [userId], references: [id])
+  notes             String?
+  code              String?
+  nextReviewAt      DateTime?
+  lastTimeAttempted DateTime?
+  ease              Int?
+
+  folderWithProblems FolderWithProblems[]
+
+  @@unique([userId, problemId])
+}
+
+model Folder {
+  id     String  @id @default(uuid())
+  userId String
+  user   User    @relation("UsersFolder", fields: [userId], references: [id])
+  name   String?
+
+  folderWithProblems FolderWithProblems[]
+}
+
+model FolderWithProblems {
+  folderId      String
+  userProblemId String 
+
+  folder      Folder      @relation(fields: [folderId], references: [id])
+  userProblem UserProblem @relation(fields: [userProblemId], references: [id])
+
+  @@id([folderId, userProblemId])
+}
