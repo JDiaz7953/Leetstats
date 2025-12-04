@@ -9,7 +9,7 @@ export async function GET(request: Request) {
   const difficulty = searchParams.get("difficulty") ?? undefined;
   const search = searchParams.get("search") ?? undefined;
 
-  const where: any = {};
+  const where: Record<string, unknown> = {};
 
   if (difficulty) {
     where.difficulty = difficulty;
@@ -31,7 +31,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(problems, { status: 200 }); // anytime we fetch from the database are we always using this line?
   } catch (err) {
-    console.error("Error fetching problems:", err);
+    console.error("Error fetching problems:", err); // console.error?
     return NextResponse.json(
       { error: "failed to fetch probelms" },
       { status: 500 }
