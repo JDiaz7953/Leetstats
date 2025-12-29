@@ -18,12 +18,18 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   const { userId } = await auth();
-  const id = params.id;
+  const { id } = await params;
   if (!userId) {
     return NextResponse.json({ error: "unaurthorized" }, { status: 401 });
   }
 
   try {
+    const deleteProblemsInFolders = await prisma.folderWithProblems.deleteMany({
+      where: {
+        userProblemId: id,
+      },
+    });
+
     const userProblem = await prisma.userProblem.deleteMany({
       where: {
         id: id,
@@ -56,12 +62,12 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   const { userId } = await auth();
-  const {id }= await params;
+  const { id } = await params;
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-   console.log("params.id: ",id )
-   console.log("userID: ",userId )
+  console.log("params.id: ", id);
+  console.log("userID: ", userId);
   try {
     const body = await request.json();
     const parsed = patchSchema.safeParse(body);

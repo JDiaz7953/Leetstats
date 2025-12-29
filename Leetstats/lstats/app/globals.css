@@ -120,3 +120,69 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Add these styles to your globals.css file */
+
+/* Clerk Button Customization */
+.cl-userButtonBox,
+.cl-userButtonTrigger {
+  height: 40px !important;
+}
+
+/* Style Clerk's Sign In Button to match your design */
+.cl-button {
+  background: #10b981 !important;
+  color: #000 !important;
+  font-weight: 600 !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 0.375rem !important;
+  transition: all 0.2s !important;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4) !important;
+}
+
+.cl-button:hover {
+  background: #34d399 !important;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.5) !important;
+}
+
+/* Style the UserButton to match your theme */
+.cl-userButtonPopoverCard {
+  background: #18181b !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+.cl-userButtonPopoverActionButton {
+  color: #a1a1aa !important;
+}
+
+.cl-userButtonPopoverActionButton:hover {
+  background: rgba(16, 185, 129, 0.1) !important;
+  color: #fff !important;
+}
+
+/* Clerk Modal Customization */
+.cl-modalContent,
+.cl-card {
+  background: #18181b !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.cl-formFieldInput {
+  background: rgba(39, 39, 42, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+
+.cl-formFieldInput:focus {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 1px #10b981 !important;
+}
+
+.cl-footerActionLink {
+  color: #10b981 !important;
+}
+
+.cl-footerActionLink:hover {
+  color: #34d399 !important;
+}

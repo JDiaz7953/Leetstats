@@ -7,8 +7,8 @@ export async function DELETE(
   request: Request,
   { params }: { params: { folderId: string; userProblemId: string } }
 ) {
-  const folderId = params.folderId;
-  const userProblemId = params.userProblemId;
+  const { folderId } = await params;
+  const { userProblemId } = await params;
   const { userId } = await auth();
 
   if (!userId) {
@@ -53,7 +53,6 @@ export async function DELETE(
       return NextResponse.json({ error: "Problem not found" }, { status: 404 });
     }
     return NextResponse.json({ message: "Problem deleted" }, { status: 200 });
-
   } catch (err) {
     console.error("Error deleting problem", err);
     return NextResponse.json(

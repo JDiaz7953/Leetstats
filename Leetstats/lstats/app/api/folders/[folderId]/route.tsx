@@ -5,9 +5,9 @@ import { auth } from "@clerk/nextjs/server";
 //Gets the folder plus the contents within in it
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { folderId: string } }
 ) {
-  const id = params.id;
+  const { folderId } = await params;
   const { userId } = await auth();
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -15,7 +15,7 @@ export async function GET(
   try {
     const folder = await prisma.folder.findFirst({
       where: {
-        id: id,
+        id: folderId,
         userId: userId,
       },
       include: {
@@ -48,9 +48,9 @@ export async function GET(
 // Deletes a folder from the user
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { folderId: string } }
 ) {
-  const id = params.id;
+  const { folderId } = await params;
   const { userId } = await auth();
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -58,11 +58,11 @@ export async function DELETE(
   try {
     const folder = await prisma.folder.deleteMany({
       where: {
-        id: id,
+        id: folderId,
         userId: userId,
       },
     });
-    if (folder.count === 0) {
+    if (folder.count === 0 || folder.count > 1) {
       return NextResponse.json({ error: "Record not Found" }, { status: 404 });
     }
     return NextResponse.json({ message: "Folder Deleted" }, { status: 200 });
